@@ -57,14 +57,14 @@ public class ChatScreen extends Fragment {
                 if (isNetworkAvailable(context)) {
                     shimmerFrameLayout.startShimmerAnimation();
                     linearLayout.setClickable(false);
-                    recyclerView.setVisibility(GONE);
+                    recyclerView.setFocusable(false);
                     Handler handler = new Handler();
                     Runnable r = new Runnable() {
                         @Override
                         public void run() {
                             shimmerFrameLayout.stopShimmerAnimation();
                             linearLayout.setClickable(true);
-                            recyclerView.setVisibility(View.VISIBLE);
+                            recyclerView.setFocusable(true);
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -117,7 +117,7 @@ public class ChatScreen extends Fragment {
                         public void run() {
                             shimmerFrameLayout.stopShimmerAnimation();
                             linearLayout.setClickable(true);
-                            recyclerView.setVisibility(View.VISIBLE);
+                            recyclerView.setFocusable(true);
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
