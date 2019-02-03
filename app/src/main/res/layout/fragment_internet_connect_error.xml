@@ -1,0 +1,42 @@
+<com.facebook.shimmer.ShimmerFrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/shimmerFrameLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".internet_connect_error"
+        android:background="@mipmap/back">
+        <TextView
+            android:id="@+id/text"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:text="OOPS!!\nNO INTERNET"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/text"
+            android:src="@mipmap/internet_error"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="50dp"/>
+
+        <ImageButton
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/text"
+            android:layout_marginTop="30dp"
+            android:id="@+id/refreshButton"
+            android:src="@mipmap/reload"
+            android:cropToPadding="true"
+            android:background="@drawable/round_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>

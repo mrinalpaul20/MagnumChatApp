@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "855568703776",
+    "firebase_url": "https://fir-database-f55c9.firebaseio.com",
+    "project_id": "fir-database-f55c9",
+    "storage_bucket": "fir-database-f55c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855568703776:android:e15076c3ad52e312",
+        "android_client_info": {
+          "package_name": "com.example.firebasedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855568703776-hkrn5t5goqoiioismcfpv71plpc0qkqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2WeC21F_p8DyM0XKJQPBwf0enmpXl0Vs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855568703776:android:eede300d5f2ee650",
+        "android_client_info": {
+          "package_name": "com.example.magnumchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855568703776-hkrn5t5goqoiioismcfpv71plpc0qkqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2WeC21F_p8DyM0XKJQPBwf0enmpXl0Vs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
