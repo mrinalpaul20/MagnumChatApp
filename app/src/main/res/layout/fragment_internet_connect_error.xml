@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".internet_connect_error"
-        android:background="@mipmap/back">
+        android:background="@mipmap/back"
+        android:tag="internet_error">
         <TextView
             android:id="@+id/text"
             android:textSize="30dp"

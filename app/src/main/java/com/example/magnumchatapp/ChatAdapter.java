@@ -42,6 +42,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         return list.get(position).getMessageType();
     }
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -53,8 +54,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             vh = new senderMessageHolder(view);
             ((senderMessageHolder) vh).setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemcClick(View v) {
-                    onItemClickListener.onItemcClick(v);
+                public void onItemClick(View v) {
+                    onItemClickListener.onItemClick(v);
                 }
             });
             return vh;
@@ -65,8 +66,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             vh = new receiverMessageHolder(view);
             ((receiverMessageHolder) vh).setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemcClick(View v) {
-                    onItemClickListener.onItemcClick(v);
+                public void onItemClick(View v) {
+                    onItemClickListener.onItemClick(v);
                 }
             });
             return vh;
@@ -77,8 +78,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             vh = new senderImageHolder(view);
             ((senderImageHolder) vh).setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemcClick(View v) {
-                    onItemClickListener.onItemcClick(v);
+                public void onItemClick(View v) {
+                    onItemClickListener.onItemClick(v);
                 }
             });
             return vh;
@@ -89,8 +90,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             vh = new receiverImageHolder(view);
             ((receiverImageHolder) vh).setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemcClick(View v) {
-                    onItemClickListener.onItemcClick(v);
+                public void onItemClick(View v) {
+                    onItemClickListener.onItemClick(v);
                 }
             });
             return vh;
@@ -101,8 +102,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             vh = new centerMessageHolder(view);
             ((centerMessageHolder) vh).setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemcClick(View v) {
-                    onItemClickListener.onItemcClick(v);
+                public void onItemClick(View v) {
+                    onItemClickListener.onItemClick(v);
                 }
             });
             return vh;
@@ -143,7 +144,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
     }
 
     @Override
-    public void onClick(View v) { }
+    public void onClick(View v) {}
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -165,7 +166,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         @Override
         public void onClick(View v) {
             if (mListner != null) {
-                mListner.onItemcClick(v);
+                mListner.onItemClick(v);
             }
         }
 
@@ -190,7 +191,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         @Override
         public void onClick(View v) {
             if (mListner != null) {
-                mListner.onItemcClick(v);
+                mListner.onItemClick(v);
             }
         }
 
@@ -224,7 +225,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         @Override
         public void onClick(View v) {
             if (mListner != null) {
-                mListner.onItemcClick(v);
+                mListner.onItemClick(v);
             }
         }
 
@@ -259,7 +260,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         @Override
         public void onClick(View v) {
             if (mListner != null) {
-                mListner.onItemcClick(v);
+                mListner.onItemClick(v);
             }
         }
 
@@ -284,7 +285,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         @Override
         public void onClick(View v) {
             if (mListner != null) {
-                mListner.onItemcClick(v);
+                mListner.onItemClick(v);
             }
         }
 

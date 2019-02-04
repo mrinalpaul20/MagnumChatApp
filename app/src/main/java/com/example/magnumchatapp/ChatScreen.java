@@ -5,17 +5,16 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -27,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import static android.view.View.GONE;
 
-public class ChatScreen extends Fragment {
+public class ChatScreen extends AppCompatActivity {
 
     RecyclerView recyclerView;
     LinearLayout linearLayout;
@@ -36,41 +35,95 @@ public class ChatScreen extends Fragment {
     char chat_flag='s';
     protected int message_counter=1;
     ShimmerFrameLayout shimmerFrameLayout;
-    Context context;
+    FrameLayout frameLayout;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.chat_screen,container,false);
-        context = view.getContext();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.chat_screen);
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        final ChatAdapter adapter = new ChatAdapter(context);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final ChatAdapter adapter = new ChatAdapter(this);
         recyclerView.setAdapter(adapter);
-        shimmerFrameLayout = view.findViewById(R.id.shimmerFrameLayout);
-        linearLayout = view.findViewById(R.id.linearLayout);
+        frameLayout = findViewById(R.id.frameLayout);
+        shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
+        linearLayout = findViewById(R.id.linearLayout);
+        final OnItemClickListener fakeListener = new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v) {
+            }
+        };
+        final OnItemClickListener onItemClickListener = new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v) {
+                if (isNetworkAvailable(ChatScreen.this)) {
+                    shimmerFrameLayout.startShimmerAnimation();
+                    linearLayout.setClickable(false);
+                    adapter.setOnItemClickListener(fakeListener);
+                    final OnItemClickListener onItemClickListener1 = this;
+                    Handler handler = new Handler();
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            shimmerFrameLayout.stopShimmerAnimation();
+                            linearLayout.setClickable(true);
+                            adapter.setOnItemClickListener(onItemClickListener1);
+                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
+                                        Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
+
+                                        if (chat_flag == 's') {
+                                            sender(dataSnapshot1,adapter);
+                                        }
+
+                                        else {
+                                            receiver(dataSnapshot1,adapter);
+                                        }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            recyclerView.smoothScrollToPosition(adapter.getItemCount()-1);
+                        }
+                    };
+                    handler.postDelayed(r,500);
+                }
+                else { showFragment(); }
+            }
+        };
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNetworkAvailable(context)) {
+                if (isNetworkAvailable(ChatScreen.this)) {
                     shimmerFrameLayout.startShimmerAnimation();
                     linearLayout.setClickable(false);
-                    recyclerView.setFocusable(false);
+                    adapter.setOnItemClickListener(fakeListener);
                     Handler handler = new Handler();
                     Runnable r = new Runnable() {
                         @Override
                         public void run() {
                             shimmerFrameLayout.stopShimmerAnimation();
                             linearLayout.setClickable(true);
-                            recyclerView.setFocusable(true);
+                            adapter.setOnItemClickListener(onItemClickListener);
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                     if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
-                                        Toast.makeText(view.getContext(),"Conversation is Ended",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
                                         return;
                                     }
 
@@ -87,7 +140,7 @@ public class ChatScreen extends Fragment {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(context,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             });
                             recyclerView.smoothScrollToPosition(adapter.getItemCount());
@@ -95,71 +148,10 @@ public class ChatScreen extends Fragment {
                     };
                     handler.postDelayed(r,500);
                 }
-
-                else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer,new internet_connect_error());
-                    fragmentTransaction.commit();
-                }
-            }
+                else { showFragment(); }
+        }
         });
-
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemcClick(View v) {
-                if (isNetworkAvailable(context)) {
-                    shimmerFrameLayout.startShimmerAnimation();
-                    linearLayout.setClickable(false);
-                    recyclerView.setClickable(false);
-                    Handler handler = new Handler();
-                    Runnable r = new Runnable() {
-                        @Override
-                        public void run() {
-                            shimmerFrameLayout.stopShimmerAnimation();
-                            linearLayout.setClickable(true);
-                            recyclerView.setClickable(true);
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                    if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
-                                        Toast.makeText(view.getContext(),"Conversation is Ended",Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-
-                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
-
-                                        if (chat_flag == 's') {
-                                            sender(dataSnapshot1,adapter);
-                                        }
-
-                                        else {
-                                            receiver(dataSnapshot1,adapter);
-                                        }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(context,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            recyclerView.smoothScrollToPosition(adapter.getItemCount());
-                        }
-                    };
-                    handler.postDelayed(r,500);
-                }
-
-                else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer,new internet_connect_error());
-                    fragmentTransaction.commit();
-                }
-            }
-        });
-
-        return view;
     }
-
 
     public void sender(DataSnapshot dataSnapshot, ChatAdapter adapter) {
         message = dataSnapshot.child(String.valueOf(message_counter))
@@ -240,4 +232,15 @@ public class ChatScreen extends Fragment {
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
+    public void showFragment() {
+        frameLayout.setVisibility(View.VISIBLE);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,new internet_connect_error());
+        fragmentTransaction.commit();
+    }
+
+    public void showChat() {
+        frameLayout = findViewById(R.id.frameLayout);
+        frameLayout.setVisibility(GONE);
+    }
 }

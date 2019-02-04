@@ -1,25 +1,34 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<RelativeLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/linearLayout"
-    android:orientation="vertical"
-    tools:context=".internet_connect_error"
-    android:background="@mipmap/back">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerFrameLayout"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:background="@mipmap/back">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_margin="10dp"
-            android:clickable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerFrameLayout"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_margin="10dp"
+                android:clickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

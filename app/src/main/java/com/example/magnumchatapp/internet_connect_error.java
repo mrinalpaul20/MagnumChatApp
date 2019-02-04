@@ -2,17 +2,14 @@ package com.example.magnumchatapp;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -36,9 +33,8 @@ public class internet_connect_error extends Fragment {
                     Runnable r = new Runnable() {
                         @Override
                         public void run() {
-                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragmentContainer, new ChatScreen());
-                            fragmentTransaction.commit();
+                            shimmerFrameLayout.stopShimmerAnimation();
+                            ((ChatScreen)getActivity()).showChat();
                         }
                     };
                     handler.postDelayed(r,500);
@@ -48,7 +44,6 @@ public class internet_connect_error extends Fragment {
                 }
             }
         });
-
         return view;
     }
 
