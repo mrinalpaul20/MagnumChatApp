@@ -20,6 +20,6 @@
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </LinearLayout>

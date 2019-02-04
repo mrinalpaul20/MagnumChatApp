@@ -110,14 +110,14 @@ public class ChatScreen extends Fragment {
                 if (isNetworkAvailable(context)) {
                     shimmerFrameLayout.startShimmerAnimation();
                     linearLayout.setClickable(false);
-                    recyclerView.setVisibility(GONE);
+                    recyclerView.setClickable(false);
                     Handler handler = new Handler();
                     Runnable r = new Runnable() {
                         @Override
                         public void run() {
                             shimmerFrameLayout.stopShimmerAnimation();
                             linearLayout.setClickable(true);
-                            recyclerView.setFocusable(true);
+                            recyclerView.setClickable(true);
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -238,17 +238,6 @@ public class ChatScreen extends Fragment {
     public boolean isNetworkAvailable(Context context) {
         final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
-    }
-
-    class thread implements Runnable {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }
