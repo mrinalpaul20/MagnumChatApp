@@ -163,6 +163,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             text.setText("  "+list.getMessage()+"  ");
         }
 
+
         @Override
         public void onClick(View v) {
             if (mListner != null) {

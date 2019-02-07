@@ -2,7 +2,6 @@ package com.example.magnumchatapp;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -14,10 +13,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +31,6 @@ public class ChatScreen extends AppCompatActivity {
     public String message;
     char chat_flag='s';
     protected int message_counter=1;
-    ShimmerFrameLayout shimmerFrameLayout;
     FrameLayout frameLayout;
 
     @Override
@@ -48,57 +44,38 @@ public class ChatScreen extends AppCompatActivity {
         final ChatAdapter adapter = new ChatAdapter(this);
         recyclerView.setAdapter(adapter);
         frameLayout = findViewById(R.id.frameLayout);
-        shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
         linearLayout = findViewById(R.id.linearLayout);
-        final OnItemClickListener fakeListener = new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v) {
-            }
-        };
+
         final OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void onItemClick(View v) {
                 if (isNetworkAvailable(ChatScreen.this)) {
-                    shimmerFrameLayout.startShimmerAnimation();
-                    linearLayout.setClickable(false);
-                    adapter.setOnItemClickListener(fakeListener);
-                    final OnItemClickListener onItemClickListener1 = this;
-                    Handler handler = new Handler();
-                    Runnable r = new Runnable() {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void run() {
-                            shimmerFrameLayout.stopShimmerAnimation();
-                            linearLayout.setClickable(true);
-                            adapter.setOnItemClickListener(onItemClickListener1);
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
-                                        Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
+                            if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
+                                Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
 
-                                        if (chat_flag == 's') {
-                                            sender(dataSnapshot1,adapter);
-                                        }
-
-                                        else {
-                                            receiver(dataSnapshot1,adapter);
-                                        }
+                                if (chat_flag == 's') {
+                                    sender(dataSnapshot1,adapter);
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                else {
+                                    receiver(dataSnapshot1,adapter);
                                 }
-                            });
-                            recyclerView.smoothScrollToPosition(adapter.getItemCount()-1);
                         }
-                    };
-                    handler.postDelayed(r,500);
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    recyclerView.smoothScrollToPosition(adapter.getItemCount()-1);
                 }
                 else { showFragment(); }
             }
@@ -108,45 +85,33 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isNetworkAvailable(ChatScreen.this)) {
-                    shimmerFrameLayout.startShimmerAnimation();
-                    linearLayout.setClickable(false);
-                    adapter.setOnItemClickListener(fakeListener);
-                    Handler handler = new Handler();
-                    Runnable r = new Runnable() {
+                    adapter.setOnItemClickListener(onItemClickListener);
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void run() {
-                            shimmerFrameLayout.stopShimmerAnimation();
-                            linearLayout.setClickable(true);
-                            adapter.setOnItemClickListener(onItemClickListener);
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
-                                        Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
+                            if (dataSnapshot.child("chat1").getChildrenCount() < message_counter) {
+                                Toast.makeText(ChatScreen.this,"Conversation is Ended",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
 
-                                        if (chat_flag == 's') {
-                                            sender(dataSnapshot1,adapter);
-                                        }
-
-                                        else {
-                                            receiver(dataSnapshot1,adapter);
-                                        }
+                                if (chat_flag == 's') {
+                                    sender(dataSnapshot1,adapter);
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                else {
+                                    receiver(dataSnapshot1,adapter);
                                 }
-                            });
-                            recyclerView.smoothScrollToPosition(adapter.getItemCount());
                         }
-                    };
-                    handler.postDelayed(r,500);
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(ChatScreen.this,"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    recyclerView.smoothScrollToPosition(adapter.getItemCount());
                 }
                 else { showFragment(); }
         }
