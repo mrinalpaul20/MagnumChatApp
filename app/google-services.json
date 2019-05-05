@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:855568703776:android:e15076c3ad52e312",
+        "mobilesdk_app_id": "1:855568703776:android:4c00fe4bc68e91d4",
         "android_client_info": {
-          "package_name": "com.example.firebasedatabase"
+          "package_name": "com.example.ipltourney"
         }
       },
       "oauth_client": [
@@ -25,15 +25,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855568703776-hkrn5t5goqoiioismcfpv71plpc0qkqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     },
@@ -56,15 +54,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855568703776-hkrn5t5goqoiioismcfpv71plpc0qkqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
